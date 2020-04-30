@@ -3,6 +3,7 @@
  *
  *
  * **/
+import java.util.*;
 public class Foo{
 	public Foo(){
 	}
@@ -19,6 +20,16 @@ public class Foo{
 		public <TT> void doIt(TT tt){
 		}
 		public void doIt(Bar<?,?> bar){
+			System.out.println("Bar.doIt()");
+		}
+	}
+	public class Buz<E> extends Bar<List<E>, ArrayList<E>>{
+		public Buz(){
+		}
+		public void doIt(){
+			List<?> list;
+			doIt(new Buz<String>());
+			
 		}
 	}
 }
