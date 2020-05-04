@@ -47,24 +47,42 @@ public class Foo{
 		// 3) List<T> doesn't reference a reference type.
 		String s45 = "abc";
 		List<String> ls45 = new ArrayList<>(); 
-		ls45.add(s45); myprint(45,ls45);
-		s45 = "bcd"; myprint(ls45);
-		ls45.set(0,"cde"); myprint(ls45); myprint(0,s45);
+		ls45.add(s45); myprint("i",45,ls45);
+		s45 = "bcd"; myprint("n",ls45);
+		ls45.set(0,"cde"); myprint("n",ls45); myprint("e",s45);
 		//ArrayDeque, Stack, FIFO, FIFO
 		Deque<Object> do52 = new ArrayDeque<Object>(Arrays.asList(new Object(),new Object()));
 		do52.addFirst(new Object()); do52.getFirst();
 		Stack<Object> so52 = new Stack<Object>();
 		so52.push(new Object()); so52.pop();
+		//Set
+		Set<Number> sd59 = new HashSet<Number>(); sd59 = new TreeSet<Number>();
+		sd59.addAll(Arrays.asList(0,1,2)); myprint("o",59, sd59);
+		//Map<K,V>
+		Map<Integer,Object> mio62 = new TreeMap<>(); mio62 = new HashMap<Integer,Object>();
+		mio62.put(0,new Object()); mio62.put(1,new Object()); myprint("o",62,mio62.entrySet());
+		
 	}
 	//enhanced out.print for me
-	public static void myprint(Object obj){
-		out.print(obj + ", ");
+	public static void myprint(String opt, Object obj){
+		myprint(opt, 0, obj);
 	}
-	public static void myprint(int ln, Object obj){
-		if(ln == 0){
-			out.println(obj);
-		}else{
-			out.print(ln + ": " + obj + ", ");
+	public static void myprint(String opt, int ln, Object obj){
+		switch(opt){
+			case "o"://once
+				out.print(ln + ": " + obj + "\n");
+				break;
+			case "i"://initial
+				out.print(ln + ": " + obj);
+				break;
+			case "n"://not initial
+				out.print(", " + obj);
+				break;
+			case "e"://end
+				out.print(", " + obj + "\n");
+				break;
+			default:
+				throw new IllegalArgumentException("Invalid option: " + opt);	
 		}
 	}
 	//generic class
