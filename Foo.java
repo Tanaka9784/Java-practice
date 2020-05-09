@@ -5,6 +5,7 @@
  * **/
 import java.lang.*;
 import java.util.*;
+import java.util.function.*;
 import java.io.*;
 import static java.lang.System.out;
 public class Foo{
@@ -57,13 +58,46 @@ public class Foo{
 		so52.push(new Object()); so52.pop();
 		//Set
 		Set<Number> sd59 = new HashSet<Number>(); sd59 = new TreeSet<Number>();
-		sd59.addAll(Arrays.asList(0,1,2)); myprint("o",59, sd59);
+		sd59.addAll(Arrays.asList(0,1,2)); myprint("i",59, sd59); 
 		//Map<K,V>
 		Map<Integer,Object> mio62 = new TreeMap<>(); mio62 = new HashMap<Integer,Object>();
-		mio62.put(0,new Object()); mio62.put(1,new Object()); myprint("o",62,mio62.entrySet());
-		
+		mio62.put(0,new Object()); mio62.put(1,new Object()); myprint2(62,mio62.entrySet());
+		for(Map.Entry<Integer,Object> me62:mio62.entrySet()) myprint2(me62.getKey() + "=" + me62.getValue());
+		//Comparable, Comparator, TreeSet, TreeMap, nullsFirst
+		class Cc66 implements Comparable<Cc66>, Serializable {
+			private int id;
+			public Cc66(int id){	this.id = id;	}
+			public int getId(){ return id; }
+			@Override
+			public int compareTo(Cc66 c){ return this.id - c.id; }
+			@Override
+			public String toString(){ return Integer.toString(id); }
+		}
+		Set<Object> so66 = new  TreeSet<>(); 
+		try{so66.add(new Object());}catch(ClassCastException e){myprint2(66,e.getMessage());}
+		try{so66.add(null); }catch(NullPointerException e){myprint2(e.getMessage());}//Why does the Exception return null?
+		Set<Cc66> sc66 = new  TreeSet<>();
+		sc66.add(new Cc66(2));sc66.add(new Cc66(0));sc66.add(new Cc66(1));sc66.add(new Cc66(-1));myprint2(66, sc66);
+		sc66 = new  TreeSet<>(new Comparator<Cc66>(){
+			@Override public int compare(Cc66 c1, Cc66 c2){ return c1.getId() + 10; }}); 
+		sc66.add(new Cc66(2));sc66.add(new Cc66(0));sc66.add(new Cc66(1));sc66.add(new Cc66(-1));myprint2(sc66);
+		sc66 = new  TreeSet<>(Comparator.nullsFirst(new Comparator<Cc66>(){
+			@Override public int compare(Cc66 c1, Cc66 c2){	return c1.getId() - c2.getId(); }})); 
+		sc66.add(new Cc66(2));sc66.add(new Cc66(0));sc66.add(new Cc66(1));sc66.add(new Cc66(-1));sc66.add(null);myprint2(sc66);
+		//FunctionInterface
+		Supplier<Object> so87 = () -> new Object(); Object o87 = so87.get(); myprint2(87,o87);
+		Consumer<Object> co87 = o -> o = null; co87.accept(new Object());
+		Predicate<Object> po87 = o -> o.equals(new Object()); boolean b87 = po87.test(new Object()); myprint2(b87);
+		Function<Object,Integer> foi87 = o -> 1; int i87 = foi87.apply(new Object()); myprint2(i87);
 	}
-	//enhanced out.print for me
+	//myprint2; enhanced myprint
+	public static void myprint2(int ln, Object obj){
+		out.print("\n" + ln + ": " + obj);
+	}
+	public static void myprint2(Object obj){
+		out.print(", " + obj);
+	}		
+	//myprint; enhanced out.print for me
 	public static void myprint(String opt, Object obj){
 		myprint(opt, 0, obj);
 	}
